@@ -1,0 +1,43 @@
+services:
+  app:
+    container_name: aperture_api
+    build: ./app
+    ports:
+      - "5001:5000"
+    depends_on:
+      - db
+    environment:
+      - FLASK_ENV=${FLASK_ENV}
+      - FLASK_APP=${FLASK_APP}
+      - SQLALCHEMY_DATABASE_URI=${SQLALCHEMY_DATABASE_URI}
+    volumes:
+      - ./app:/app
+    networks:
+      - backend
+
+  db:
+    container_name: aperture_db
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    command:
+        --pid-file=/var/run/mysqld/mysqld.pid
+        --sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql  # Mount init.sql here
+      - mysqld_run:/var/run/mysqld  # Secure directory for PID file
+    networks:
+      - backend
+
+networks:
+  backend: {}
+volumes:
+  db:
+  app:
+  db_data:
+  mysqld_run:
