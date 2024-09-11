@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS math_histories (
+CREATE TABLE IF NOT EXISTS math_history (
   id INT NOT NULL AUTO_INCREMENT,
   user_id INT NOT NULL,
   question VARCHAR(120),

@@ -1,22 +1,22 @@
 services:
-  app:
-    container_name: aperture_api
+  aperture_api:
     build: ./app
     ports:
       - "5001:5000"
     depends_on:
-      - db
+      - aperture_db
     environment:
       - FLASK_ENV=${FLASK_ENV}
       - FLASK_APP=${FLASK_APP}
+      - PYTHONPATH=/app
       - SQLALCHEMY_DATABASE_URI=${SQLALCHEMY_DATABASE_URI}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - ./app:/app
     networks:
       - backend
 
-  db:
-    container_name: aperture_db
+  aperture_db:
     image: mysql:8.0
     restart: always
     environment:
@@ -37,7 +37,5 @@ services:
 networks:
   backend: {}
 volumes:
-  db:
-  app:
   db_data:
   mysqld_run:

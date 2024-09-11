@@ -1,3 +1,5 @@
+from models.math_history import MathHistory
+from app import db
 class HistoryService:
     def __init__(self):
         pass
@@ -36,5 +38,5 @@ class HistoryService:
         db.session.commit()
         return True
 
-    def get_all_history(self):
+    def get_all_histories(self):
         return MathHistory.query.all()
