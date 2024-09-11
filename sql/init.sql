@@ -1,11 +1,14 @@
+-- Create database if it doesn't exist
 CREATE DATABASE IF NOT EXISTS aperture;
-use aperture;
+
+-- Connect to the newly created or existing database
+USE aperture;
 
 CREATE TABLE IF NOT EXISTS users (
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(20) NOT NULL,
   email VARCHAR(50) UNIQUE NOT NULL,
-  password VARCHAR(20),
+  password VARCHAR(20) NOT NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 );
