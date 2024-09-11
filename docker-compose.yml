@@ -28,8 +28,8 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql  # Mount init.sql here
+      - db_data:/var/lib/mysql
       - mysqld_run:/var/run/mysqld  # Secure directory for PID file
     networks:
       - backend

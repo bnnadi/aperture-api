@@ -1,4 +1,6 @@
 # __init__.py
-__all__ = ['module1', 'module2']
+__all__ = ['auth', 'history', 'user']
 
+from .auth import *
+from .history import *
 from .user import *
