@@ -30,7 +30,18 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no git_user@${{ secrets.DO_SERVER_IP }} << 'EOF'
             cd /var/www/apertureapi  # Change to your directory
-            # Run any deployment commands (e.g., pulling dependencies, restarting services)
-            # For example, if you're using a Node.js app:
-            pm2 restart all
+            # Step 5: Set up virtual environment (if using one)
+            python3 -m venv venv
+            source venv/bin/activate
+
+            # Step 6: Install dependencies
+            pip install -r requirements.txt
+
+            # Step 7: Restart the application
+            # If you're using Gunicorn with systemd:
+            sudo systemctl restart gunicorn
+
+            # OR if you run it directly:
+            # pkill -f gunicorn
+            # gunicorn --workers 3 app:app -b 0.0.0.0:8000 --daemon
           EOF
