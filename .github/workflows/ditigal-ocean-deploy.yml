@@ -1,0 +1,36 @@
+name: Deploy to DigitalOcean Droplet
+
+on:
+  push:
+    branches:
+      - main  # Change this to the branch you want to deploy from
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code from the GitHub repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Add SSH Key to deploy to the Droplet
+      - name: Add SSH key
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+
+      # Step 3: Copy files to the Droplet
+      - name: Copy files via SCP
+        run: |
+          scp -r -o StrictHostKeyChecking=no ./ git_user@${{ secrets.DO_SERVER_IP }}:/var/www/apertureapi  # Change the destination directory
+
+      # Step 4: SSH into Droplet and restart your application or server
+      - name: SSH and deploy
+        run: |
+          ssh -o StrictHostKeyChecking=no git_user@${{ secrets.DO_SERVER_IP }} << 'EOF'
+            cd /var/www/apertureapi  # Change to your directory
+            # Run any deployment commands (e.g., pulling dependencies, restarting services)
+            # For example, if you're using a Node.js app:
+            pm2 restart all
+          EOF
