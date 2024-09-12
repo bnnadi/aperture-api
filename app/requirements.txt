@@ -5,4 +5,5 @@ Flask-Marshmallow
 PyMySQL
 marshmallow
 python-dotenv
+cryptography
 sympy

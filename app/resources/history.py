@@ -6,9 +6,8 @@ history_bp = Blueprint('history', __name__)
 
 @history_bp.route('/math-histories', methods=['GET'])
 def get_all_history():
-    return "Hello, History!"
-    # history = history_service.get_all_history()
-    # return jsonify([{"id": h.id, "question": h.question, "answer": h.answer, "user_id": h.user_id} for h in history])
+    history = history_service.get_all_history()
+    return jsonify([{"id": h.id, "question": h.question, "answer": h.answer, "user_id": h.user_id} for h in history])
 
 @history_bp.route('/history/<int:history_id>', methods=['GET'])
 def get_history(history_id):
