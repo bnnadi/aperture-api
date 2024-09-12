@@ -3,6 +3,8 @@ Flask-Bcrypt
 Flask-SQLAlchemy
 Flask-Marshmallow
 PyMySQL
+PyJWT
+pytest
 marshmallow
 python-dotenv
 cryptography
