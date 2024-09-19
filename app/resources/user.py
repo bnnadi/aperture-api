@@ -38,7 +38,7 @@ def user_update(user_id):
 @jwt_required
 def remove_user(user_id):
     user_service.delete_user(user_id)
-    return success_response({"message": "User deleted"}, status_code=204)
+    return success_response( "User deleted", status_code=204)
 
 @user_bp.route('/users', methods=['GET'])
 @jwt_required

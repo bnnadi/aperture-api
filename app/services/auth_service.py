@@ -1,12 +1,13 @@
 from models import User, db
 from utils import hash_password, check_password
+from flask import current_app
 
 class AuthService:
     def __init__(self):
         pass
 
-    def login_user(self, name, password):
-        user = User.query.filter_by(name=name).first()
+    def login_user(self, email, password):
+        user = User.query.filter_by(email=email).first()
         if user and check_password(password, user.password):
             return user
         else:

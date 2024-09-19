@@ -5,7 +5,6 @@ from utils.auth import generate_token, verify_token
 from utils.auth_decorator import jwt_required
 from services.auth_service import AuthService
 from services.user_service import UserService
-
 # Initialize the auth service
 auth_service = AuthService()
 user_service = UserService()
@@ -50,16 +49,17 @@ def register():
     new_user = auth_service.register_user(data.get('name'), data.get('email'), data.get('password'))
 
     token = generate_token(user_id=new_user.id)
-    return success_response({"id": new_user.id, "name": new_user.name, "email": new_user.email, 'token': token}, message="Registeration successful", status_code=201)
+    return success_response("Registeration successful",{"id": new_user.id, "name": new_user.name, "email": new_user.email, 'token': token}, status_code=201)
 
 # Login a user
 @auth_bp.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
     user = auth_service.login_user(data.get('email'), data.get('password'))
+
     if user:
-        token = generate_token(user_id=new_user.id)
-        return success_response({"id": user.id, "name": user.name, "email": user.email, 'token': token}, message="Login successful", status_code=200)
+        token = generate_token(user_id=user.id)
+        return success_response("Login successful", {"id": user.id, "name": user.name, "email": user.email, 'token': token}, status_code=200)
     else:
         return error_response("Invalid username or password", status_code=401)
 
@@ -85,5 +85,5 @@ def refresh():
         exp_time = datetime.datetime.utcfromtimestamp(decoded_token['exp'])
         if (exp_time - datetime.datetime.utcnow()).total_seconds() <= 600:  # 10 minutes
             new_token = generate_token(user_id=decoded_token['user_id'])
-            return success_response({'token': new_token}, message="Token refreshed", status_code=200)
+            return success_response("Token refreshed", {'token': new_token}, status_code=200)
     return error_response('Token is valid', status_code=400)

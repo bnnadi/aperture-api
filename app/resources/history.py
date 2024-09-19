@@ -63,7 +63,7 @@ def delete_user_history(user_id):
     #  Add user permission check
     # user_id = request.user_id
     history_service.delete_history_by_user(user_id)
-    return success_response({"message": "History deleted successfully"}, status_code=204)
+    return success_response( "History deleted successfully", status_code=204)
 
 # get all user history
 @history_bp.route('/user/math-history', methods=['GET'])
@@ -80,4 +80,4 @@ def get_all_user_history():
 def delete_history_by_user():
     user_id = request.user_id
     history_service.delete_history_by_user(user_id)
-    return success_response({"message": "History deleted successfully"}, status_code=204)
+    return success_response("History deleted successfully", status_code=204)

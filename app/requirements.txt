@@ -5,6 +5,7 @@ Flask-Marshmallow
 PyMySQL
 PyJWT
 pytest
+pytest-cov
 marshmallow
 python-dotenv
 cryptography

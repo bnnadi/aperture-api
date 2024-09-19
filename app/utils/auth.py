@@ -9,11 +9,12 @@ def generate_token(user_id, expiration_minutes=60):
     :param expiration_minutes: Token expiration time in minutes
     :return: Encoded JWT token
     """
+    SECRET_KEY = current_app.config['SECRET_KEY']
     expiration_date = datetime.datetime.now() + datetime.timedelta(minutes=expiration_minutes)
     token = jwt.encode({
         'user_id': user_id,
         'exp': expiration_date
-    }, current_app.config['SECRET_KEY'], algorithm='HS256')
+    }, SECRET_KEY, algorithm='HS256')
 
     return token
 
@@ -23,8 +24,9 @@ def verify_token(token):
     :param token: JWT token
     :return: Decoded token data or None if invalid
     """
+    SECRET_KEY = current_app.config['SECRET_KEY']
     try:
-        data = jwt.decode(token, current_app.config['SECRET_KEY'], algorithms=['HS256'])
+        data = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
         return data
     except jwt.ExpiredSignatureError:
         return None  # Token has expired

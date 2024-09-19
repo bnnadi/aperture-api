@@ -8,6 +8,7 @@ services:
     environment:
       - FLASK_ENV=${FLASK_ENV}
       - FLASK_APP=${FLASK_APP}
+      - FLASK_DEBUG=1
       - PYTHONPATH=/app
       - SQLALCHEMY_DATABASE_URI=${SQLALCHEMY_DATABASE_URI}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
