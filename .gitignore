@@ -1,5 +1,8 @@
 .DS_Store
+.vscode/
+
 .env
 .env.test
+
 .venv/
 /app/**/__pycache__/**

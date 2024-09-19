@@ -40,3 +40,6 @@ class HistoryService:
 
     def get_all_histories(self):
         return MathHistory.query.all()
+
+    def get_all_histories_by_user_id(self, user_id):
+        return MathHistory.query.filter_by(user_id=user_id).all()

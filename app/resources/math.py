@@ -1,10 +1,10 @@
 from flask import Blueprint, request
 from utils.response import success_response, error_response
 from utils.auth_decorator import jwt_required
-from services.math_service import MathService
+from services.history_service import HistoryService
 
-# Initialize the math service
-math_service = MathService()
+# Initialize the history service
+history_service = HistoryService()
 
 math_bp = Blueprint('math', __name__)
 
