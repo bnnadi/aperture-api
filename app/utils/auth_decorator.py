@@ -31,13 +31,33 @@ def jwt_required(f):
 
         # Extract token from Authorization header
         token = request.headers['Authorization'].split(' ')[1]
-
-        # Verify token
-        user_id = verify_token(token)
+        # Verify token data
+        data = verify_token(token)
+        if not data:
+            return error_response('Invalid token!', status_code=403)
+        # Verify user
+        user_id = data.get('user_id')
         if not user_id:
             return error_response('Invalid token!', status_code=403)
+        # Check if token has expired
+        expiry = data.get('exp')
+        if expiry and datetime.now().timestamp() > expiry:
+            return error_response('Token has expired!', status_code=403)
+
+        # Pass the user_id to the next decorator or view function
+        kwargs['user_id'] = user_id
 
         # If token is valid, proceed with the request
+        return f(*args, **kwargs)
+
+    return decorated
+
+def is_admin(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        user_id = kwargs.get('user_id')
+        if user_id != 1:
+            return error_response('User does not have admin privileges!', status_code=403)
         return f(*args, **kwargs)
 
     return decorated
